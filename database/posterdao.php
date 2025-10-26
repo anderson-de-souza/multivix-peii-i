@@ -16,7 +16,7 @@ class PosterDAO {
                     poster_title VARCHAR(64) NOT NULL,
                     poster_headline VARCHAR(128) NOT NULL,
                     poster_description TEXT NOT NULL,
-                    poster_cover_img_name VARCHAR(64) DEFAULT 'img_poster_cover_0.png',
+                    poster_cover_img_name VARCHAR(64),
                     poster_created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     poster_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
                 );

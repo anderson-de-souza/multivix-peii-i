@@ -1,0 +1,3 @@
+resources/poster/cover_img/*
+
+!resources/poster/cover_img/img_0.jpg

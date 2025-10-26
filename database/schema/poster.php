@@ -5,7 +5,7 @@ class Poster {
     private string $title;
     private string $headline;
     private string $description;
-    private string $coverImgName;
+    private ?string $coverImgName;
     private ?DateTime $createdAt;
     private ?DateTime $updatedAt;
 
@@ -13,7 +13,7 @@ class Poster {
         string $title,
         string $headline,
         string $description,
-        string $coverImgName,
+        ?string $coverImgName,
         ?DateTime $createdAt = null,
         ?DateTime $updatedAt = null
     ) {
@@ -49,11 +49,11 @@ class Poster {
         $this->description = $description;
     }
 
-    public function getCoverImgName(): string {
+    public function getCoverImgName(): ?string {
         return $this->coverImgName;
     }
 
-    public function setCoverImgName(string $coverImgName): void {
+    public function setCoverImgName(?string $coverImgName): void {
         $this->coverImgName = $coverImgName;
     }
 
