@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Espírito Eco</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
         rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
         crossorigin="anonymous">
+    
 </head>
 <body>
 
-    <main class="vw-100 vh-100 d-flex flex-column bg-body-tertiary">
+    <main class="vw-100 vh-100 d-flex flex-column overflow-scroll bg-warning">
 
         <header class="w-100">
 
-            <nav class="navbar navbar-expand-lg">
+            <nav class="navbar navbar-expand-lg bg-success text-white" data-bs-theme="dark">
                 <div class="container-fluid">
 
-                    <a class="navbar-brand" href="#">Navbar</a>
-
+                    <span class="navbar-brand mb-0 h1">Espírito Eco</span>
+                    
                     <button class="navbar-toggler" 
                         type="button"
                         data-bs-toggle="collapse"
@@ -73,26 +75,60 @@
             </nav>
         </header>
  
-        <section class="w-100 flex-fill">
-            <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
-                <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</h1>
-            </div>
-            <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quae, voluptates! Sunt facere reiciendis nemo! Libero mollitia minima maiores quisquam cum doloremque quasi nesciunt tempora voluptate officiis? Sapiente illum sunt debitis?</p>
-            </div>
-            <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
-                <div class="card w-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Quiz</h5>
-                        <p id="quizQuestion" class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <button id="quizOptionTrueButton" class="btn btn-primary">Verdadeiro</button>
-                        <button id="quizOptionFalseButton" class="btn btn-primary">Falso</button>
+        <section class="w-100">
+            <div class="row g-0">
+                
+                <div class="col-12 text-center pt-5 px-3 pb-3">
+                    <h1>Seja bem vindo ao Espírito Ecológico</h1>
+                </div>
+                
+                <div class="col-12 text-center px-3">
+                    <p>
+                        Aqui, acreditamos que conhecimento e consciência se transformam em ação.
+                        Nosso objetivo é inspirar e conectar pessoas que desejam construir um planeta mais verde,
+                        justo e sustentável. Explore, aprenda e faça parte dessa jornada
+                        — cada pequena ação conta para um futuro melhor.
+                    </p>
+                </div>
+                
+                <div class="col-12 px-3 pb-3 bg-primary">
+                    
+                    <div class="row g-0">
+                        <div class="col-12">
+                            
+                            <div class="card">
+                                
+                                <img src="./resources/poster/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
+                                
+                                <div class="card-body">
+                                    <h5 class="card-title">A vida Mais Verde</h5>
+                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
+                                    <a href="#" class="btn btn-primary">Ver Mais</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="col-12 px-3 pb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Eco Quiz</h5>
+                            <p id="quizQuestion" class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                            <div class="w-100 d-flex flex-row-reverse">
+                                <button id="quizOptionFalseButton" class="btn btn-primary ms-1">Falso</button>
+                                <button id="quizOptionTrueButton" class="btn btn-primary">Verdadeiro</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="w-100 d-flex flex-column justify-content-center align-items-center">
+        <footer class="w-100 d-flex flex-column justify-content-center align-items-center bg-success">
             © 2025
         </footer>
 
