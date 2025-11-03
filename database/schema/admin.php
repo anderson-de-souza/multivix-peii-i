@@ -6,8 +6,7 @@ class Admin {
     private string $email;
     private string $token;
 
-    public function __construct(int $id, string $email, string $token) {
-        $this->id = $id;
+    public function __construct(string $email, string $token) {
         $this->email = $email;
         $this->token = $token;
     }

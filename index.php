@@ -1,14 +1,43 @@
-<!DOCTYPE html>
+
+<?php
+    
+    require_once __DIR__ . '/database/admindao.php';
+
+    session_start();
+
+    $adminLogged = false;
+
+    if (isset($_SESSION['admin_logged']) && $_SESSION['admin_logged'] === true) {
+        $adminLogged = true;
+    }
+
+    
+    if (isset($_GET['logout']) && filter_var($_GET['logout'], FILTER_VALIDATE_BOOLEAN)) {
+        session_unset();
+        session_destroy();
+        header('Location: index.php');
+        exit;
+    }
+
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espírito Eco</title>
-    
+
+    <link rel="icon" type="image/*" href="./resources/ic_recycling.svg">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=recycling" />
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
         rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
         crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     
 </head>
 <body>
@@ -21,7 +50,9 @@
 
                 <div class="container-fluid">
 
-                    <span class="navbar-brand mb-0 h1">Espírito Eco</span>
+                    <span class="material-symbols-outlined text-center text-light">recycling</span>
+
+                    <span class="mb-0 h4 text-center text-light">Espírito Eco</span>
                     
                     <button class="navbar-toggler" 
                         type="button"
@@ -39,35 +70,23 @@
 
                         <ul class="navbar-nav">
 
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
+                            <?php if ($adminLogged): ?>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Features</a>
+                                <a class="nav-link" href="/poster_add_edit.php">Adicionar Novo Cartaz</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
+                                <a class="nav-link" href="?logout=true">Admin Logout</a>
                             </li>
 
-                            <li class="nav-item dropdown" data-bs-theme="light">
-                                
-                                <a class="nav-link dropdown-toggle"
-                                    href="#"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Dropdown link
-                                </a>
+                            <?php else: ?>
 
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin_log.php">Log Admin</a>
                             </li>
+
+                            <?php endif; ?>
 
                         </ul>
 
@@ -80,8 +99,16 @@
 
             <div class="col-12 col-lg-9 d-flex flex-column">
                 
-                <div class="w-100 text-center p-3 pt-5">
-                    <h1>Seja bem vindo ao Espírito Ecológico</h1>
+                <div class="w-100 text-center p-3">
+                    <div class="row g-0 align-items-center justify-content-center">
+                        <div class="col-12 col-md-4 pt-5">
+                            <img src="./resources/logo.jpg" id="preview" class="img-fluid" style="max-height: 256px;background: none" alt="logo">
+                        </div>
+                        <div class="col-12 col-md-8 pt-5">
+                            <h1>Seja bem vindo ao Espírito Ecológico</h1>
+                        </div>
+                    </div>
+                    
                 </div>
                 
                 <div class="w-100 text-center p-3">
@@ -94,234 +121,73 @@
                 </div>
                 
                 <div class="w-100">
+
                     <div class="row g-0 align-items-center justify-content-center">
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        <?php
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                            require_once __DIR__ . '/database/posterdao.php';
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                            $posters = PosterDAO::getAllPosters();
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        ?>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        <?php if (empty($posters)): ?>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        <p class="text-center text-muted my-5">Nenhum cartaz disponível no momento.</p>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        <?php elseif ($adminLogged): ?>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                            <?php foreach ($posters as $poster): ?>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
+                            <div class="col-11 col-md-6 col-lg-4 p-3">
                                 
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
+                                <div class="card">
+                                    
+                                    <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES)?>" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?>">
+                                    
+                                    <div class="card-body p-3">
+                                        <h5 class="card-title"><?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?></h5>
+                                        <p class="card-text"><?= htmlspecialchars($poster->getHeadline(), ENT_QUOTES)?></p>
+                                        <div class="text-end">
+                                            <a href="/poster_add_edit.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES)?>" class="btn btn-transparent text-primary">Edit</a>
+                                            <a href="/poster_view.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES)?>" class="btn btn-transparent text-primary">Abrir</a>
+                                        </div>
+                                    </div>
                                 </div>
+                                
                             </div>
-                            
-                        </div>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                            <?php endforeach; ?>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        <?php else: ?>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                            <?php foreach ($posters as $poster): ?>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
+                            <div class="col-11 col-md-6 col-lg-4 p-3">
                                 
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
+                                <div class="card">
+                                    
+                                    <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES)?>" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?>">
+                                    
+                                    <div class="card-body p-3">
+                                        <h5 class="card-title"><?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?></h5>
+                                        <p class="card-text"><?= htmlspecialchars($poster->getHeadline(), ENT_QUOTES)?></p>
+                                        <div class="text-end">
+                                            <a href="/poster_view.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES)?>" class="btn btn-transparent text-primary">Abrir</a>
+                                        </div>
+                                    </div>
                                 </div>
+                                
                             </div>
-                            
-                        </div>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                            <?php endforeach; ?>
 
-                        <div class="col-11 col-md-6 col-lg-4 p-3">
-                            
-                            <div class="card">
-                                
-                                <img src="./resources/poster/cover_img/img_0.jpg" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="...">
-                                
-                                <div class="card-body p-3">
-                                    <h5 class="card-title">A vida Mais Verde</h5>
-                                    <p class="card-text">Descubra como cultivar cebolinha <strong>verde</strong> em um pote de margarina.</p>
-                                    <a href="#" class="btn btn-primary">Abrir</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        <?php endif; ?>
+
 
                     </div>
+
                 </div>
                 
                 <div class="w-100">
@@ -349,9 +215,11 @@
 
         </section>
 
-        <footer class="row g-0 justify-content-center align-items-center">
+        <footer class="col-12 row g-0 justify-content-center align-items-center">
             <div class="col-12 text-center p-3">
-                © 2025
+                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none">
+                    <i class="bi bi-instagram"></i> espirito_eco © 2025
+                </a>
             </div>
         </footer>
 

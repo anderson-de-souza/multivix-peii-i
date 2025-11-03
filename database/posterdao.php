@@ -1,5 +1,5 @@
     
-}<?php
+<?php
 
 require_once __DIR__ . '/pdoconnection.php';
 require_once __DIR__ . '/schema/poster.php';
@@ -7,23 +7,23 @@ require_once __DIR__ . '/schema/poster.php';
 class PosterDAO {
     
     public static function getPDO(): PDO {
+
         $pdo = PDOConnection::getPDO();
         
-        if ($pdo) {
-            $pdo->exec("
-                CREATE TABLE IF NOT EXISTS poster (
-                    poster_id INT PRIMARY KEY AUTO_INCREMENT,
-                    poster_title VARCHAR(64) NOT NULL,
-                    poster_headline VARCHAR(128) NOT NULL,
-                    poster_description TEXT NOT NULL,
-                    poster_cover_img_name VARCHAR(64),
-                    poster_created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    poster_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-                );
-            ");
-        }
+        $pdo->exec("
+            CREATE TABLE IF NOT EXISTS poster (
+                poster_id INT PRIMARY KEY AUTO_INCREMENT,
+                poster_title VARCHAR(64) NOT NULL,
+                poster_headline VARCHAR(128) NOT NULL,
+                poster_description TEXT NOT NULL,
+                poster_cover_img_name VARCHAR(64),
+                poster_created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                poster_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            );
+        ");
         
         return $pdo;
+        
     }
     
     public static function insert(Poster $poster): int {
