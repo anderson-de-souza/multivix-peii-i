@@ -11,12 +11,23 @@
         $adminLogged = true;
     }
 
+    $logout = filter_input(INPUT_GET, 'logout', FILTER_VALIDATE_BOOLEAN);
     
-    if (isset($_GET['logout']) && filter_var($_GET['logout'], FILTER_VALIDATE_BOOLEAN)) {
+    if ($logout) {
         session_unset();
         session_destroy();
         header('Location: index.php');
         exit;
+    }
+
+    $searchQuery = filter_input(INPUT_POST, 'searchQuery', FILTER_UNSAFE_RAW);
+
+    error_log("Search Query: $searchQuery");
+
+    $currentPage = filter_input(INPUT_GET, 'currentPage', FILTER_VALIDATE_INT);
+
+    if (!$currentPage) {
+        $currentPage = 1;
     }
 
 ?>
@@ -46,53 +57,58 @@
 
         <header class="col-12 row g-0 align-items-center justify-content-center bg-success">
 
-            <nav class="col-12 col-lg-6 navbar" data-bs-theme="dark">
+            <div class="col-12 col-lg-6">
 
-                <div class="container-fluid">
+                <nav class="navbar" data-bs-theme="dark">
 
-                    <span class="material-symbols-outlined text-center text-light">recycling</span>
+                    <div class="container-fluid">
 
-                    <span class="mb-0 h4 text-center text-light">Espírito Eco</span>
-                    
-                    <button class="navbar-toggler" 
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown"
-                        aria-controls="navbarNavDropdown"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        <span class="material-symbols-outlined text-center text-light">recycling</span>
 
-                        <span class="navbar-toggler-icon"></span>
+                        <span class="mb-0 h4 text-center text-light">Espírito Eco</span>
+                        
+                        <button class="navbar-toggler" 
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavDropdown"
+                            aria-controls="navbarNavDropdown"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
 
-                    </button>
-                    
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                            <span class="navbar-toggler-icon"></span>
 
-                        <ul class="navbar-nav">
+                        </button>
+                        
+                        <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
-                            <?php if ($adminLogged): ?>
+                            <ul class="navbar-nav">
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="/poster_add_edit.php">Adicionar Novo Cartaz</a>
-                            </li>
+                                <?php if ($adminLogged): ?>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="?logout=true">Admin Logout</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/poster_add_edit.php">Adicionar Novo Cartaz</a>
+                                </li>
 
-                            <?php else: ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="?logout=true">Admin Logout</a>
+                                </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin_log.php">Log Admin</a>
-                            </li>
+                                <?php else: ?>
 
-                            <?php endif; ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin_log.php">Log Admin</a>
+                                </li>
 
-                        </ul>
+                                <?php endif; ?>
 
+                            </ul>
+
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+
+            </div>
+            
         </header>
  
         <section class="col-12 row g-0 align-items-center justify-content-center">
@@ -119,6 +135,50 @@
                         — cada pequena ação conta para um futuro melhor.
                     </p>
                 </div>
+
+                <?php
+
+                    require_once __DIR__ . '/database/posterdao.php';
+
+                    $postersCount = PosterDAO::getCount();
+                    if ($postersCount > 3):
+
+                ?>
+
+                <div class="w-100">
+
+                    <div class="row g-0 align-items-center justify-content-center">
+                        <div class="col-11 col-md-6 col-lg-6 p-3">
+                            
+                            <div class="w-100">
+                                <form method="post" class="d-flex" role="search">
+
+                                    <?php
+
+                                        if (isset($_POST['back'])) {
+                                            $searchQuery = null;
+                                        }
+
+                                        if (!empty($searchQuery)):
+
+                                    ?>
+
+                                    <button class="btn btn-outline-success me-2" type="submit" name="back"><i class="bi bi-arrow-left"></i></button>
+                                    
+                                    <?php endif; ?>
+
+                                    <input class="form-control me-2" type="search" name="searchQuery" placeholder="Ex: A vida Mais Verde..." aria-label="Buscar Cartaz" value="<?= htmlspecialchars($searchQuery, ENT_QUOTES) ?>"/>
+                                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                                </form>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                    
+                </div>
+                
+                <?php endif; ?>
                 
                 <div class="w-100">
 
@@ -126,9 +186,13 @@
 
                         <?php
 
-                            require_once __DIR__ . '/database/posterdao.php';
+                            $posters = [];
 
-                            $posters = PosterDAO::getAllPosters();
+                            if (isset($searchQuery)) {
+                                $posters = PosterDAO::search($searchQuery, $currentPage);
+                            } else {
+                                $posters = PosterDAO::getPage($currentPage);
+                            }
 
                         ?>
 
@@ -144,7 +208,7 @@
                                 
                                 <div class="card">
                                     
-                                    <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES)?>" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?>">
+                                    <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES) ?>" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?>">
                                     
                                     <div class="card-body p-3">
                                         <h5 class="card-title"><?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?></h5>
@@ -189,6 +253,43 @@
                     </div>
 
                 </div>
+                
+                <?php
+
+                    if ($postersCount > 12):
+
+                        error_log("Posters Count: $postersCount");
+                    
+                        $pagesCount = ceil($postersCount / 12);
+
+                        error_log("Pages Count: $pagesCount");
+                    
+                ?>
+
+                <div class="w-100">
+
+                    <div class="row g-0 align-items-center justify-content-center">
+                        <div class="col-11 col-md-6 col-lg-6 p-3">
+
+                            <nav class="w-100">
+                                <ul class="pagination d-flex flex-wrap align-items-center justify-content-center">
+                                    <?php for ($i = 1; $i <= $pagesCount; $i++): ?>
+                                        <li class="page-item <?= ($i === $currentPage ? 'active' : '') ?>">
+                                            <a class="page-link" href="?currentPage=<?= $i ?>" aria-current="page">
+                                                <?= $i ?>
+                                            </a>
+                                        </li>
+                                    <?php endfor; ?>
+                                </ul>
+                            </nav>
+                            
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+                <?php endif; ?>
                 
                 <div class="w-100">
 

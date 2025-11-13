@@ -2,10 +2,10 @@
 
 class PDOConnection {
     
-    private static string $host = 'localhost';
-    private static string $dbname = 'peiii';
-    private static string $username ='root';
-    private static string $password = '@devFullstack2026';
+    public static string $host = 'localhost';
+    public static string $dbname = 'peiii';
+    public static string $username ='root';
+    public static string $password = '@devFullstack2026';
     
     private static ?PDO $pdo = null;
     
@@ -19,8 +19,12 @@ class PDOConnection {
             
             try {
                 
-                self::$pdo = new PDO('mysql:host=' . self::$host .';charset=utf8', self::$username, self::$password);
-                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$pdo = new PDO('mysql:host=' . self::$host .';charset=utf8', self::$username, self::$password, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_EMULATE_PREPARES => true
+                ]);
+
+                error_log("PDO CREATED");
                 
                 self::$pdo->exec('CREATE DATABASE IF NOT EXISTS ' . self::$dbname);
                 self::$pdo->exec('USE ' . self::$dbname);

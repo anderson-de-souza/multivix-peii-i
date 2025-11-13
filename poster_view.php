@@ -11,20 +11,27 @@
         $adminLogged = true;
     }
 
+    $logout = filter_input(INPUT_GET, 'logout', FILTER_VALIDATE_BOOLEAN);
     
-    if (isset($_GET['logout']) && filter_var($_GET['logout'], FILTER_VALIDATE_BOOLEAN)) {
+    if ($logout) {
         session_unset();
         session_destroy();
         header('Location: index.php');
         exit;
     }
 
-    $poster = null;
-
     $posterId = filter_input(INPUT_GET, 'posterId', FILTER_VALIDATE_INT);
     
     if ($posterId) {
         $poster = PosterDAO::select($posterId);
+    }
+
+    $delete = filter_input(INPUT_GET, 'delete', FILTER_VALIDATE_BOOLEAN);
+
+    if ($delete) {
+        PosterDAO::delete($posterId);
+        header('Location: index.php');
+        exit;
     }
 
 ?>
@@ -89,6 +96,10 @@
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link" href="?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES) ?>&delete=true">Remover este Cartaz</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link" href="/poster_add_edit.php">Adicionar Novo Cartaz</a>
                             </li>
 
@@ -118,7 +129,7 @@
             <?php if ($poster): ?>
 
             <div class="w-100 text-center p-3 pt-5">
-                <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES) ?>" class="w-100 object-fit-cover" style="max-height: 256px;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES) ?>">
+                <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES) ?>" class="w-100 rounded-3 object-fit-cover" style="max-height: 256px;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES) ?>">
             </div>
 
             <div class="w-100 text-center p-3">

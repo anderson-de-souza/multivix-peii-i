@@ -1,66 +1,61 @@
 
 <?php
-    require_once __DIR__ . '/database/admindao.php';
 
-    session_start();
+require_once __DIR__ . '/database/admindao.php';
 
-    $adminLogged = false;
+session_start();
 
-    $admin = AdminDAO::getAdmin();
+$adminLogged = false;
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
-        if (isset($_POST['adminEmail'], $_POST['adminPassword'])) {
+$admin = AdminDAO::getAdmin();
 
-            if ($admin) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    if (isset($_POST['adminEmail'], $_POST['adminPassword'])) {
 
-                if ($_POST['adminEmail'] === $admin->getEmail() && password_verify($_POST['adminPassword'], $admin->getToken())) {
-                    $_SESSION['admin_logged'] = true;
-                    $adminLogged = true;
+        if ($admin) {
 
-                    header('Location: index.php');
-
-                } else {
-                    header('Location: admin_log.php?error=invalid_password');
-                    exit;
-                }
-
-            } else {
-
-                $newAdmin = new Admin($_POST['adminEmail'], $_POST['adminPassword']);
-                AdminDAO::insert($newAdmin);
-
+            if ($_POST['adminEmail'] === $admin->getEmail() && password_verify($_POST['adminPassword'], $admin->getToken())) {
                 $_SESSION['admin_logged'] = true;
                 $adminLogged = true;
 
                 header('Location: index.php');
+                exit;
 
+            } else {
+                header('Location: admin_log.php?error=invalid_password');
+                exit;
             }
 
-        }
+        } else {
 
-    } else {
-        
-        if (isset($_SESSION['admin_logged']) && $_SESSION['admin_logged'] === true) {
-            
+            $newAdmin = new Admin($_POST['adminEmail'], $_POST['adminPassword']);
+            AdminDAO::insert($newAdmin);
+
+            $_SESSION['admin_logged'] = true;
             $adminLogged = true;
 
             header('Location: index.php');
-
-        }
-
-        
-        if (isset($_GET['logout']) && filter_var($_GET['logout'], FILTER_VALIDATE_BOOLEAN)) {
-            session_unset();
-            session_destroy();
-            header('Location: admin_log.php');
             exit;
+
         }
 
     }
 
-?>
+} else {
+    
+    if (isset($_SESSION['admin_logged']) && $_SESSION['admin_logged'] === true) {
+        
+        $adminLogged = true;
 
+        header('Location: index.php');
+        exit;
+
+    }
+
+}
+
+?>
 
 <html lang="pt-br">
 <head>

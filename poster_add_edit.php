@@ -11,21 +11,30 @@
         $adminLogged = true;
     }
 
+    $logout = false;
+    $logout = filter_input(INPUT_GET, 'logout', FILTER_VALIDATE_BOOLEAN);
     
-    if (isset($_GET['logout']) && filter_var($_GET['logout'], FILTER_VALIDATE_BOOLEAN)) {
+    if ($logout) {
         session_unset();
         session_destroy();
         header('Location: index.php');
         exit;
     }
 
-    
-
     $poster = null;
-
     $posterId = filter_input(INPUT_GET, 'posterId', FILTER_VALIDATE_INT);
+
     if ($posterId) {
         $poster = PosterDAO::select($posterId);
+    }
+
+    $delete = false;
+    $delete = filter_input(INPUT_GET, 'delete', FILTER_VALIDATE_BOOLEAN);
+
+    if ($delete) {
+        PosterDAO::delete($posterId);
+        header('Location: index.php');
+        exit;
     }
 
 ?>
@@ -58,18 +67,26 @@
                 
                 $coverImgName = saveCoverImg();
         
-                $poster = new Poster(
-                    $_POST['posterTitle'],
-                    $_POST['posterHeadline'],
-                    $_POST['posterDescription'],
-                    $coverImgName
-                );
+                if ($poster) {
 
-                if (isset($_POST['posterId'])) {
+                    $poster->setTitle($_POST['posterTitle']);
+                    $poster->setHeadline($_POST['posterHeadline']);
+                    $poster->setDescription($_POST['posterDescription']);
+                    $poster->setCoverImgName($coverImgName);
 
+                    PosterDAO::update($poster);
+
+                } else {
+                    for ($i = 0; $i < 256; $i++) {
+                        $poster = new Poster(
+                            $_POST['posterTitle'] . ' - ' . $i,
+                            $_POST['posterHeadline'] . ' - ' . $i,
+                            $_POST['posterDescription'] . ' - ' . $i,
+                            $coverImgName
+                        );
+                        PosterDAO::insert($poster);
+                    }
                 }
-                
-                PosterDAO::insert($poster);
                 
                 header("Location: index.php");
                 exit;
@@ -150,6 +167,10 @@
                             <?php if ($adminLogged && $poster): ?>
 
                             <li class="nav-item">
+                                <a class="nav-link" href="?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES) ?>&delete=true">Remover este Cartaz</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link" href="/poster_add_edit.php">Adicionar Novo Cartaz</a>
                             </li>
 
@@ -227,7 +248,7 @@
                         </div>
 
                         <div class="d-flex flex-row-reverse">
-                            <button type="submit" class="btn btn-primary">Criar</button>
+                            <button type="submit" class="btn btn-primary"><?= $poster ? 'Editar': 'Criar' ?></button>
                         </div>
                         
                     </form>
