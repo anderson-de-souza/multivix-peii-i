@@ -182,7 +182,7 @@
                 
                 <div class="w-100">
 
-                    <div class="row g-0 align-items-center justify-content-center">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-0 align-items-stretch justify-content-center">
 
                         <?php
 
@@ -200,44 +200,23 @@
 
                         <p class="text-center text-muted my-5">Nenhum cartaz disponível no momento.</p>
 
-                        <?php elseif ($adminLogged): ?>
-
-                            <?php foreach ($posters as $poster): ?>
-
-                            <div class="col-11 col-md-6 col-lg-4 p-3">
-                                
-                                <div class="card">
-                                    
-                                    <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES) ?>" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?>">
-                                    
-                                    <div class="card-body p-3">
-                                        <h5 class="card-title"><?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?></h5>
-                                        <p class="card-text"><?= htmlspecialchars($poster->getHeadline(), ENT_QUOTES)?></p>
-                                        <div class="text-end">
-                                            <a href="/poster_add_edit.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES)?>" class="btn btn-transparent text-primary">Edit</a>
-                                            <a href="/poster_view.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES)?>" class="btn btn-transparent text-primary">Abrir</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-
-                            <?php endforeach; ?>
-
                         <?php else: ?>
 
                             <?php foreach ($posters as $poster): ?>
 
-                            <div class="col-11 col-md-6 col-lg-4 p-3">
+                            <div class="col-11 col-md-6 col-lg-4 d-flex align-items-stretch justify-content-center p-3">
                                 
-                                <div class="card">
+                                <div class="card w-100 h-100 d-flex flex-column">
                                     
-                                    <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES)?>" class="card-img-top object-fit-cover" style="max-height: 256px;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?>">
+                                    <img src="./resources/poster/cover_img/<?= htmlspecialchars($poster->getCoverImgName() ?: 'img_0.jpg', ENT_QUOTES) ?>" class="card-img-top" style="height: 180px; object-fit: cover;" alt="<?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?>">
                                     
-                                    <div class="card-body p-3">
-                                        <h5 class="card-title"><?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?></h5>
-                                        <p class="card-text"><?= htmlspecialchars($poster->getHeadline(), ENT_QUOTES)?></p>
-                                        <div class="text-end">
+                                    <div class="card-body p-3 d-flex flex-column">
+                                        <h5 class="card-title mb-2 text-truncate"><?= htmlspecialchars($poster->getTitle(), ENT_QUOTES)?></h5>
+                                        <p class="card-text flex-grow-1"><?= htmlspecialchars($poster->getHeadline(), ENT_QUOTES)?></p>
+                                        <div class="text-end mt-auto">
+                                            <?php if ($adminLogged): ?>
+                                                <a href="/poster_add_edit.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES)?>" class="btn btn-transparent text-primary">Editar</a>
+                                            <?php endif; ?>
                                             <a href="/poster_view.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES)?>" class="btn btn-transparent text-primary">Abrir</a>
                                         </div>
                                     </div>
@@ -257,12 +236,8 @@
                 <?php
 
                     if ($postersCount > 12):
-
-                        error_log("Posters Count: $postersCount");
                     
                         $pagesCount = ceil($postersCount / 12);
-
-                        error_log("Pages Count: $pagesCount");
                     
                 ?>
 
@@ -290,6 +265,28 @@
                 </div>
 
                 <?php endif; ?>
+
+                <div class="w-100 text-center p-3 bg-success text-white rounded-4 mt-3 py-5">
+
+                    <h1>Educação Ambiental e Práticas Sustentáveis para a Transformação Social</h1>
+
+                    <p class="px-3 mt-3" style="text-align: justify;">
+                        A degradação ambiental se intensificou nos últimos anos em razão do modelo de desenvolvimento pautado no consumo desenfreado e na exploração de recursos naturais. As consequências desse comportamento são visíveis: mudanças climáticas, perda da biodiversidade, escassez de recursos e aumento das desigualdades sociais. Diante dessa problemática, se faz necessário promover uma nova consciência coletiva, com valores éticos, solidários e sustentáveis. A educação ambiental tem como desempenho um papel essencial na formação de indivíduos analíticos e responsáveis, com a capacidade de compreender a relação entre a sociedade e natureza.
+                    </p>
+
+                    <p class="px-3" style="text-align: justify;">
+                        A educação ambiental é definida pela Política Nacional de Educação Ambiental (Lei n° 9.795/1999) como o processo pelo qual indivíduos e coletividades constroem valores, conhecimentos, habilidades e atitudes voltadas para a conservação do meio ambiente e a melhoria da qualidade de vida. É destacado a importância de uma abordagem contínua, crítica e participativa, com a capacidade de gerar mudanças concretas na sociedade.
+                    </p>
+
+                    <p class="px-3" style="text-align: justify;">
+                        Segundo Jacobi (2003), a educação ambiental deve ser entendida como uma prática social e política, que vai muito além do ensino sobre ecologia. Tendo como foco o fortalecimento da cidadania e da justiça social, por meio da sensibilização, comoção e da participação ativa da população em ações que visem o bem coletivo.
+                    </p>
+
+                    <p class="px-3" style="text-align: justify;">
+                        As práticas sustentáveis têm, por sua vez, o resultado prático da conscientização ambiental. Incluem a separação de resíduos, o reaproveitamento de água, o uso de energias limpas, o incentivo à economia local e o consumo consciente. Essas ações, quando implementadas no cotidiano, contribuem para reduzir impactos ambientais e promover uma cultura de responsabilidade social.
+                    </p>
+
+                </div>
                 
                 <div class="w-100">
 

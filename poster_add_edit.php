@@ -24,7 +24,7 @@
     $poster = null;
     $posterId = filter_input(INPUT_GET, 'posterId', FILTER_VALIDATE_INT);
 
-    if ($posterId) {
+    if ($posterId && $posterId > 0) {
         $poster = PosterDAO::select($posterId);
     }
 
@@ -72,20 +72,21 @@
                     $poster->setTitle($_POST['posterTitle']);
                     $poster->setHeadline($_POST['posterHeadline']);
                     $poster->setDescription($_POST['posterDescription']);
-                    $poster->setCoverImgName($coverImgName);
+                    
+                    if (isset($coverImgName)) {
+                        $poster->setCoverImgName($coverImgName);
+                    }
 
                     PosterDAO::update($poster);
 
                 } else {
-                    for ($i = 0; $i < 256; $i++) {
-                        $poster = new Poster(
-                            $_POST['posterTitle'] . ' - ' . $i,
-                            $_POST['posterHeadline'] . ' - ' . $i,
-                            $_POST['posterDescription'] . ' - ' . $i,
-                            $coverImgName
-                        );
-                        PosterDAO::insert($poster);
-                    }
+                    $poster = new Poster(
+                        $_POST['posterTitle'],
+                        $_POST['posterHeadline'],
+                        $_POST['posterDescription'],
+                        $coverImgName
+                    );
+                    PosterDAO::insert($poster);
                 }
                 
                 header("Location: index.php");
@@ -209,13 +210,13 @@
 
                 <div class="w-100 text-center p-3 pt-5">
 
-                    <form action="" method="post" enctype="multipart/form-data">
+                    <form action="?posterId=<?= $poster ? $poster->getId(): 0 ?>" method="post" enctype="multipart/form-data">
 
                         <?php if ($poster): ?>
 
                         <div class="mb-3 text-start fw-bold">
                             <label for="posterId" class="form-label">Id</label>
-                            <input type="number" class="form-control" id="posterId" name="posterId" value="<?= htmlspecialchars($poster->getId(), ENT_QUOTES) ?>" disabled>
+                            <input type="number" class="form-control" id="posterId" name="posterId" value="<?= $poster->getId() ?>" disabled>
                         </div>
 
                         <?php endif; ?>
@@ -248,7 +249,8 @@
                         </div>
 
                         <div class="d-flex flex-row-reverse">
-                            <button type="submit" class="btn btn-primary"><?= $poster ? 'Editar': 'Criar' ?></button>
+                            <button type="submit" class="btn btn-primary ms-3"><?= $poster ? 'Editar': 'Criar' ?></button>
+                            <a class="btn btn-primary" href="/index.php">Cancelar</a>
                         </div>
                         
                     </form>
