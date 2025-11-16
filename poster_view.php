@@ -54,75 +54,79 @@
         crossorigin="anonymous">
 
 </head>
-<body>
+<body class="bg-success">
 
 
-    <main class="row g-0 align-items-center justify-content-center">
+    <main class="row g-0">
 
         <header class="col-12 row g-0 align-items-center justify-content-center bg-success">
 
-            <nav class="col-12 col-lg-6 navbar" data-bs-theme="dark">
+            <div class="col-12 col-lg-6">
+                <nav class="navbar" data-bs-theme="dark">
 
-                <div class="container-fluid">
+                    <div class="container-fluid">
 
-                    <span class="material-symbols-outlined text-center text-light">recycling</span>
+                        <span class="material-symbols-outlined text-center text-light">recycling</span>
 
-                    <span class="mb-0 h4 text-center text-light">Espírito Eco</span>
-                    
-                    <button class="navbar-toggler" 
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown"
-                        aria-controls="navbarNavDropdown"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        <span class="mb-0 h4 text-center text-light">Espírito Eco</span>
+                        
+                        <button class="navbar-toggler" 
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavDropdown"
+                            aria-controls="navbarNavDropdown"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
 
-                        <span class="navbar-toggler-icon"></span>
+                            <span class="navbar-toggler-icon"></span>
 
-                    </button>
-                    
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        </button>
+                        
+                        <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
-                        <ul class="navbar-nav">
+                            <ul class="navbar-nav">
 
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/index.php">Home</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="/index.php">Home</a>
+                                </li>
 
-                            <?php if ($adminLogged): ?>
+                                <?php if ($adminLogged): ?>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="/poster_add_edit.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES) ?>">Editar Cartaz</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/poster_add_edit.php?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES) ?>">Editar Cartaz</a>
+                                </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES) ?>&delete=true">Remover este Cartaz</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="?posterId=<?= htmlspecialchars($poster->getId(), ENT_QUOTES) ?>&delete=true">Remover este Cartaz</a>
+                                </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="/poster_add_edit.php">Adicionar Novo Cartaz</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/poster_add_edit.php">Adicionar Novo Cartaz</a>
+                                </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="?logout=true">Admin Logout</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="?logout=true">Admin Logout</a>
+                                </li>
 
-                            <?php else: ?>
+                                <?php else: ?>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin_log.php">Log Admin</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin_log.php">Log Admin</a>
+                                </li>
 
-                            <?php endif; ?>
+                                <?php endif; ?>
 
-                        </ul>
+                            </ul>
 
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+
+            </div>
+
         </header>
         
-        <section class="col-12 row g-0 align-items-center justify-content-center">
+        <section class="col-12 row g-0 align-items-center justify-content-center mb-3 bg-white">
 
             <div class="col-12 col-sm-10 col-md-6 d-flex flex-column">
                 
@@ -143,7 +147,7 @@
             </div>
 
             <div class="w-100 p-3">
-                <p><?= htmlspecialchars($poster->getDescription(), ENT_QUOTES) ?></p>
+                <p style="white-space: pre-wrap"><?= htmlspecialchars($poster->getDescription(), ENT_QUOTES) ?></p>
             </div>
 
                 <?php endif; ?>
@@ -152,9 +156,9 @@
  
         </section>
 
-        <footer class="row g-0 justify-content-center align-items-center">
+        <footer class="col-12 row g-0 justify-content-center align-items-center bg-success p-5">
             <div class="col-12 text-center p-3">
-                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none">
+                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none link-light">
                     <i class="bi bi-instagram"></i> espirito_eco © 2025
                 </a>
             </div>

@@ -260,9 +260,9 @@
             
         </section>
 
-        <footer class="row g-0 justify-content-center align-items-center">
+        <footer class="col-12 row g-0 justify-content-center align-items-center bg-success p-5">
             <div class="col-12 text-center p-3">
-                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none">
+                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none link-light">
                     <i class="bi bi-instagram"></i> espirito_eco © 2025
                 </a>
             </div>

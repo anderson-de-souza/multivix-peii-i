@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         crossorigin="anonymous">
 
 </head>
-<body>
+<body class="bg-success">
     
     <main class="row g-0">
 
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </nav>
         </header>
 
-        <section class="col-12 row g-0 align-items-center justify-content-center">
+        <section class="col-12 row g-0 align-items-center justify-content-center bg-white">
 
             <div class="col-12 col-sm-10 col-md-6 d-flex flex-column">
                 
@@ -161,9 +161,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </section>
 
-        <footer class="row g-0 justify-content-center align-items-center">
+        <footer class="col-12 row g-0 justify-content-center align-items-center bg-success p-5">
             <div class="col-12 text-center p-3">
-                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none">
+                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none link-light">
                     <i class="bi bi-instagram"></i> espirito_eco © 2025
                 </a>
             </div>

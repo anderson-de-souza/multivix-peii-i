@@ -22,8 +22,6 @@
 
     $searchQuery = filter_input(INPUT_POST, 'searchQuery', FILTER_UNSAFE_RAW);
 
-    error_log("Search Query: $searchQuery");
-
     $currentPage = filter_input(INPUT_GET, 'currentPage', FILTER_VALIDATE_INT);
 
     if (!$currentPage) {
@@ -53,7 +51,7 @@
 </head>
 <body>
 
-    <main class="row g-0">
+    <main class="vw-100 vh-100 row g-0">
 
         <header class="col-12 row g-0 align-items-center justify-content-center bg-success">
 
@@ -111,16 +109,16 @@
             
         </header>
  
-        <section class="col-12 row g-0 align-items-center justify-content-center">
+        <section class="col-12 row g-0 align-items-center justify-content-center mb-5">
 
             <div class="col-12 col-lg-9 d-flex flex-column">
                 
                 <div class="w-100 text-center p-3">
                     <div class="row g-0 align-items-center justify-content-center">
-                        <div class="col-12 col-md-4 pt-5">
+                        <div class="col-11 col-md-3 pt-5">
                             <img src="./resources/logo.jpg" id="preview" class="img-fluid" style="max-height: 256px;background: none" alt="logo">
                         </div>
-                        <div class="col-12 col-md-8 pt-5">
+                        <div class="col-11 col-md-6 pt-5">
                             <h1>Seja bem vindo ao Espírito Ecológico</h1>
                         </div>
                     </div>
@@ -128,12 +126,16 @@
                 </div>
                 
                 <div class="w-100 text-center p-3">
-                    <p>
-                        Aqui, acreditamos que conhecimento e consciência se transformam em ação.
-                        Nosso objetivo é inspirar e conectar pessoas que desejam construir um planeta mais verde,
-                        justo e sustentável. Explore, aprenda e faça parte dessa jornada
-                        — cada pequena ação conta para um futuro melhor.
-                    </p>
+                    <div class="row g-0 align-items-center justify-content-center">
+                        <div class="col-11 col-md-11 col-lg-9">
+                            <p class="fs-5">
+                                Aqui, acreditamos que conhecimento e consciência se transformam em ação.
+                                Nosso objetivo é inspirar e conectar pessoas que desejam construir um planeta mais verde,
+                                justo e sustentável. Explore, aprenda e faça parte dessa jornada
+                                — cada pequena ação conta para um futuro melhor.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <?php
@@ -167,7 +169,7 @@
                                     
                                     <?php endif; ?>
 
-                                    <input class="form-control me-2" type="search" name="searchQuery" placeholder="Ex: A vida Mais Verde..." aria-label="Buscar Cartaz" value="<?= htmlspecialchars($searchQuery, ENT_QUOTES) ?>"/>
+                                    <input class="form-control me-2" type="search" name="searchQuery" placeholder="Pesquisar Em Espírito Eco..." aria-label="Buscar Cartaz" value="<?= htmlspecialchars($searchQuery, ENT_QUOTES) ?>"/>
                                     <button class="btn btn-outline-success" type="submit">Buscar</button>
                                 </form>
                             </div>
@@ -182,13 +184,13 @@
                 
                 <div class="w-100">
 
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-0 align-items-stretch justify-content-center">
+                    <div class="row g-0 align-items-stretch justify-content-center">
 
                         <?php
 
                             $posters = [];
 
-                            if (isset($searchQuery)) {
+                            if (!empty($searchQuery)) {
                                 $posters = PosterDAO::search($searchQuery, $currentPage);
                             } else {
                                 $posters = PosterDAO::getPage($currentPage);
@@ -204,7 +206,7 @@
 
                             <?php foreach ($posters as $poster): ?>
 
-                            <div class="col-11 col-md-6 col-lg-4 d-flex align-items-stretch justify-content-center p-3">
+                            <div class="col-11 col-md-5 col-lg-4 d-flex align-items-stretch justify-content-center p-3">
                                 
                                 <div class="card w-100 h-100 d-flex flex-column">
                                     
@@ -266,56 +268,80 @@
 
                 <?php endif; ?>
 
-                <div class="w-100 text-center p-3 bg-success text-white rounded-4 mt-3 py-5">
+                <div class="w-100 mb-3">
+                    <div class="row g-0 align-items-center justify-content-center">
+                        <div class="col-11 col-md-11 col-lg-9 text-center bg-success text-white rounded mt-3 py-5 mb-3 p-3">
+                            <h1>Educação Ambiental e Práticas Sustentáveis para a Transformação Social</h1>
 
-                    <h1>Educação Ambiental e Práticas Sustentáveis para a Transformação Social</h1>
+                            <p class="px-3 mt-3" style="text-align: justify;">
+                                A degradação ambiental se intensificou nos últimos anos em razão do modelo de desenvolvimento pautado no consumo desenfreado e na exploração de recursos naturais. As consequências desse comportamento são visíveis: mudanças climáticas, perda da biodiversidade, escassez de recursos e aumento das desigualdades sociais. Diante dessa problemática, se faz necessário promover uma nova consciência coletiva, com valores éticos, solidários e sustentáveis. A educação ambiental tem como desempenho um papel essencial na formação de indivíduos analíticos e responsáveis, com a capacidade de compreender a relação entre a sociedade e natureza.
+                            </p>
 
-                    <p class="px-3 mt-3" style="text-align: justify;">
-                        A degradação ambiental se intensificou nos últimos anos em razão do modelo de desenvolvimento pautado no consumo desenfreado e na exploração de recursos naturais. As consequências desse comportamento são visíveis: mudanças climáticas, perda da biodiversidade, escassez de recursos e aumento das desigualdades sociais. Diante dessa problemática, se faz necessário promover uma nova consciência coletiva, com valores éticos, solidários e sustentáveis. A educação ambiental tem como desempenho um papel essencial na formação de indivíduos analíticos e responsáveis, com a capacidade de compreender a relação entre a sociedade e natureza.
-                    </p>
+                            <p class="px-3" style="text-align: justify;">
+                                A educação ambiental é definida pela Política Nacional de Educação Ambiental (Lei n° 9.795/1999) como o processo pelo qual indivíduos e coletividades constroem valores, conhecimentos, habilidades e atitudes voltadas para a conservação do meio ambiente e a melhoria da qualidade de vida. É destacado a importância de uma abordagem contínua, crítica e participativa, com a capacidade de gerar mudanças concretas na sociedade.
+                            </p>
 
-                    <p class="px-3" style="text-align: justify;">
-                        A educação ambiental é definida pela Política Nacional de Educação Ambiental (Lei n° 9.795/1999) como o processo pelo qual indivíduos e coletividades constroem valores, conhecimentos, habilidades e atitudes voltadas para a conservação do meio ambiente e a melhoria da qualidade de vida. É destacado a importância de uma abordagem contínua, crítica e participativa, com a capacidade de gerar mudanças concretas na sociedade.
-                    </p>
+                            <p class="px-3" style="text-align: justify;">
+                                Segundo Jacobi (2003), a educação ambiental deve ser entendida como uma prática social e política, que vai muito além do ensino sobre ecologia. Tendo como foco o fortalecimento da cidadania e da justiça social, por meio da sensibilização, comoção e da participação ativa da população em ações que visem o bem coletivo.
+                            </p>
 
-                    <p class="px-3" style="text-align: justify;">
-                        Segundo Jacobi (2003), a educação ambiental deve ser entendida como uma prática social e política, que vai muito além do ensino sobre ecologia. Tendo como foco o fortalecimento da cidadania e da justiça social, por meio da sensibilização, comoção e da participação ativa da população em ações que visem o bem coletivo.
-                    </p>
-
-                    <p class="px-3" style="text-align: justify;">
-                        As práticas sustentáveis têm, por sua vez, o resultado prático da conscientização ambiental. Incluem a separação de resíduos, o reaproveitamento de água, o uso de energias limpas, o incentivo à economia local e o consumo consciente. Essas ações, quando implementadas no cotidiano, contribuem para reduzir impactos ambientais e promover uma cultura de responsabilidade social.
-                    </p>
-
+                            <p class="px-3" style="text-align: justify;">
+                                As práticas sustentáveis têm, por sua vez, o resultado prático da conscientização ambiental. Incluem a separação de resíduos, o reaproveitamento de água, o uso de energias limpas, o incentivo à economia local e o consumo consciente. Essas ações, quando implementadas no cotidiano, contribuem para reduzir impactos ambientais e promover uma cultura de responsabilidade social.
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="w-100">
 
                     <div class="row g-0 align-items-center justify-content-center">
-                        <div class="col-11 col-md-6 col-lg-6 p-3">
-                            
+                        <div class="col-11 col-md-11 col-lg-9">
+
                             <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Eco Quiz</h5>
-                                    <p id="quizQuestion" class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                                    <div class="w-100 d-flex flex-row-reverse">
-                                        <button id="quizOptionFalseButton" class="btn btn-primary ms-1">Falso</button>
-                                        <button id="quizOptionTrueButton" class="btn btn-primary">Verdadeiro</button>
+                                <div class="card-body p-5">
+
+                                    <div class="row g-0 align-items-center justify-content-center">
+
+                                        <div class="col-12 col-md-7 mb-3 mb-md-0">
+
+                                            <div class="d-flex flex-column align-items-center">
+
+                                                <h1>Eco Quiz</h1>
+
+                                                <p id="quizQuestion" class="card-text text-center fs-5">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                                        
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="col-12 col-md-5">
+
+                                            <div class="d-flex flex-row-reverse justify-content-center mb-2">
+                                                <p class="fs-5">Total de Acertos: <span id="correctAnswerTotal">0</span></p>
+                                            </div>
+
+                                            <div class="d-flex flex-row-reverse justify-content-center">
+                                                <button id="quizOptionFalseButton" class="btn btn-primary fs-5 ms-1">Falso</button>
+                                                <button id="quizOptionTrueButton" class="btn btn-primary fs-5">Verdadeiro</button>
+                                            </div>
+
+                                        </div>
+
                                     </div>
-                                </div>
+
                             </div>
-                            
                         </div>
 
-                    </div>
-                    
+                    </div>            
                 </div>
+
             </div>
 
         </section>
 
-        <footer class="col-12 row g-0 justify-content-center align-items-center">
+        <footer class="col-12 row g-0 justify-content-center align-items-center bg-success p-5">
             <div class="col-12 text-center p-3">
-                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none">
+                <a href="https://www.instagram.com/espirito_eco" target="_blank" class="text-decoration-none link-light">
                     <i class="bi bi-instagram"></i> espirito_eco © 2025
                 </a>
             </div>
@@ -334,27 +360,12 @@
     </script>
     
     <script>
-        
-        const pickedIndexes = []
-        
-        const range = 20
-        
-        let index = genIndex()
-        let lastIndex = index
-        
-        function genIndex(range = 20) {
-            return Math.floor(Math.random() * 15)
+
+        function removeFromArray(array, value) {
+            const index = array.indexOf(value);
+            if (index > -1) array.splice(index, 1);
         }
-        
-        function validateNewIndex() {
-            lastIndex = index
-            index = genIndex()
-            while (pickedIndexes.includes(index)) {
-                index = genIndex()
-            }
-            return index
-        }
-        
+
         const quizQuestions = JSON.parse(`[
             { "question": "Plantar árvores ajuda a sequestrar dióxido de carbono da atmosfera.", "answer": true },
             { "question": "Lâmpadas LED consomem mais energia que lâmpadas incandescentes.", "answer": false },
@@ -377,48 +388,111 @@
             { "question": "Comprar alimentos produzidos localmente tende a reduzir as emissões relacionadas ao transporte.", "answer": true },
             { "question": "Selo \\\"orgânico\\\" garante que a produção não teve qualquer impacto ambiental.", "answer": false }
         ]`);
+
+        let correctAnswerTotal = 0
+        const correctAnswerTotalElement = document.getElementById('correctAnswerTotal')
+
+        let isCorrectAnswer = false
+        let currentQuestion = { question: '', answer: false }
         
+        let index = genIndex(quizQuestions.length)
+        
+        function genIndex(range = 20) {
+
+            if(range <= 1) {
+                return 0
+            } else {
+                return Math.floor(Math.random() * range)
+            }
+            
+        }
+        
+        function validateNewIndex(range) {
+            return genIndex(range)
+        }
+         
         const quizQuestion = document.getElementById('quizQuestion')
         const quizOptionTrueButton = document.getElementById('quizOptionTrueButton')
         const quizOptionFalseButton = document.getElementById('quizOptionFalseButton')
         
         let quizQuestionButtonClickable = true
         
-        quizOptionTrueButton.addEventListener("click", () => {
+        quizOptionTrueButton.addEventListener('click', () => {
             if (quizQuestionButtonClickable) {
-                quizOptionTrueButton.classList.replace("btn-primary", quizQuestions[index].answer ? "btn-success": "btn-danger")
+
+                isCorrectAnswer = currentQuestion.answer === true
+
+                quizOptionTrueButton.classList.replace("btn-primary", isCorrectAnswer ? "btn-success": "btn-danger")
+
+                if (isCorrectAnswer) {
+                    correctAnswerTotal++
+                    correctAnswerTotalElement.innerHTML = correctAnswerTotal
+                }
+
                 updateQuizCardDelayedWithButtons(() => {
-                    quizOptionTrueButton.classList.replace(quizQuestions[lastIndex].answer ? "btn-success": "btn-danger", "btn-primary")
+                    quizOptionTrueButton.classList.replace(isCorrectAnswer ? "btn-success": "btn-danger", "btn-primary")
                 })
+
             }
         })
         
-        quizOptionFalseButton.addEventListener("click", () => {
+        quizOptionFalseButton.addEventListener('click', () => {
             if (quizQuestionButtonClickable) {
-                quizOptionFalseButton.classList.replace("btn-primary", !quizQuestions[index].answer ? "btn-success": "btn-danger")
+
+                isCorrectAnswer = currentQuestion.answer === false
+
+                quizOptionFalseButton.classList.replace("btn-primary", isCorrectAnswer ? "btn-success": "btn-danger")
+
+                if (isCorrectAnswer) {
+                    correctAnswerTotal++
+                    correctAnswerTotalElement.innerHTML = correctAnswerTotal   
+                }
+
                 updateQuizCardDelayedWithButtons(() => {
-                    quizOptionFalseButton.classList.replace(!quizQuestions[lastIndex].answer ? "btn-success": "btn-danger", "btn-primary")
+                    quizOptionFalseButton.classList.replace(isCorrectAnswer ? "btn-success": "btn-danger", "btn-primary")
                 })
             }
         })
         
         function updateQuizCard() {
-            quizQuestion.innerHTML = quizQuestions[validateNewIndex()].question
+
+            if (isCorrectAnswer) {
+                removeFromArray(quizQuestions, currentQuestion)
+            }
+
+            if (quizQuestions.length === 0) {
+
+                index = 0
+                quizQuestions[0] = { question: 'Parabéns! Você Acertou Todas As Questões!', answer: false }
+                currentQuestion = quizQuestions[0]
+
+                quizOptionTrueButton.classList.replace("btn-primary", "btn-secondary")
+                quizOptionFalseButton.classList.replace("btn-primary", "btn-secondary")
+
+            } else {
+                currentQuestion = quizQuestions[validateNewIndex(quizQuestions.length)]  
+            }
+            
+            quizQuestion.innerHTML = currentQuestion.question
+
         }
         
-        function updateQuizCardDelayed(callback, millis = 1500) {
+        function updateQuizCardDelayed(callback, millis = 1000) {
             setTimeout(() => {
-                updateQuizCard()
                 callback()
+                updateQuizCard()
             }, millis)
         }
         
-        function updateQuizCardDelayedWithButtons(callback, millis = 1500) {
+        function updateQuizCardDelayedWithButtons(callback, millis = 1000) {
+
             quizQuestionButtonClickable = false
+
             updateQuizCardDelayed(() => {
                 callback()
                 quizQuestionButtonClickable = true
             }, millis)
+
         }
         
         updateQuizCard()
